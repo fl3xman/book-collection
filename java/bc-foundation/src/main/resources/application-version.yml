@@ -1,0 +1,11 @@
+---
+spring:
+  profiles: local, test
+
+version: 1.0-local
+
+---
+spring:
+  profiles: develop, production
+
+version: ${VERSION:}

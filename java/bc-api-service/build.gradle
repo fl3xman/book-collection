@@ -1,0 +1,31 @@
+dependencies {
+    compile project(":bc-foundation")
+
+    api 'org.springframework.boot:spring-boot-starter-webflux'
+    api 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    api 'org.modelmapper:modelmapper:2.3.0'
+
+    api 'com.h2database:h2'
+    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+}
+
+
+test {
+    failFast = true
+
+    useJUnitPlatform()
+    systemProperty 'spring.profiles.active', 'test'
+}
+
+bootJar {
+    enabled = true
+    archiveBaseName = 'bc-api-service'
+    archiveVersion = '1.0.0'
+}
+
+jar {
+    enabled = false
+}
