@@ -1,0 +1,27 @@
+{
+  "name": "book-collection",
+  "version": "1.0.0",
+  "description": "Book collection api set.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "mike.grman@gmail.com",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/bluebird": "^3.5.29",
+    "@types/lodash": "^4.14.149",
+    "@types/node": "^13.7.1",
+    "@types/validator": "^12.0.1",
+    "tslint": "^6.0.0",
+    "tslint-no-circular-imports": "^0.7.0",
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "inversify": "^5.0.1",
+    "lodash": "^4.17.15",
+    "reflect-metadata": "^0.1.13",
+    "sequelize": "^5.21.4",
+    "sequelize-typescript": "^1.1.0"
+  }
+}
