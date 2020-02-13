@@ -32,6 +32,8 @@ class BookController {
     @Autowired
     private lateinit var bookAuthorService: BookAuthorService
 
+    // Default CRUD
+
     @GetMapping
     fun find(@Valid params: SearchPageRequestParams): Mono<PageResponse<BookExtendedResponse>> = bookService.findExtended(params).toMono()
 
@@ -53,6 +55,7 @@ class BookController {
             @Validated(Update::class) @RequestBody input: BookRequest
     ): Mono<BookExtendedResponse> = bookService.update(id, input).toMono()
 
+    // Custom CRUD
 
     @PostMapping(path = ["/{id}/authors"], consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun addAuthor(
