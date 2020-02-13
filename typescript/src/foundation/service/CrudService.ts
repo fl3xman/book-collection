@@ -5,7 +5,7 @@ import { Sequelize } from "sequelize-typescript";
 
 import { Auditable } from "../domain";
 import { CrudServiceProvider } from "./CrudServiceProvider";
-import { guardEntityNotFound } from "../domain/EntityNotFoundError";
+import { guardEntityNotFound } from "../domain";
 
 @injectable()
 export abstract class CrudService<T extends Auditable<T>, ID> implements CrudServiceProvider<T, ID> {

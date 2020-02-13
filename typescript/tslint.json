@@ -4,7 +4,6 @@
     "tslint-no-circular-imports"
   ],
   "rules": {
-    "no-var-requires": false,
     "interface-name": [
       true,
       "never-prefix"
