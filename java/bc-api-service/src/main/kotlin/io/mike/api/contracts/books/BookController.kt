@@ -33,7 +33,7 @@ class BookController {
     private lateinit var bookAuthorService: BookAuthorService
 
     @GetMapping
-    fun find(@Valid params: SearchPageRequestParams): Mono<PageResponse<BookExtendedResponse>> = bookService.find(params).toMono()
+    fun find(@Valid params: SearchPageRequestParams): Mono<PageResponse<BookExtendedResponse>> = bookService.findExtended(params).toMono()
 
     @GetMapping(path = ["/{id}"])
     fun findOne(@PathVariable id: UUID): Mono<BookExtendedResponse> = bookService.findOne(id).toMono()
@@ -54,16 +54,16 @@ class BookController {
     ): Mono<BookExtendedResponse> = bookService.update(id, input).toMono()
 
 
-    @PatchMapping(path = ["/{id}/author/add"], consumes = [MediaType.APPLICATION_JSON_VALUE])
+    @PostMapping(path = ["/{id}/authors"], consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun addAuthor(
             @PathVariable id: UUID,
-            @Validated(Update::class) @RequestBody input: BookAuthorChangeRequest
+            @Validated @RequestBody input: BookAuthorChangeRequest
     ): Mono<BookExtendedResponse> = bookAuthorService.addAuthors(id, input).toMono()
 
 
-    @PatchMapping(path = ["/{id}/author/remove"], consumes = [MediaType.APPLICATION_JSON_VALUE])
+    @DeleteMapping(path = ["/{id}/authors"], consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun removeAuthor(
             @PathVariable id: UUID,
-            @Validated(Update::class) @RequestBody input: BookAuthorChangeRequest
+            @Validated @RequestBody input: BookAuthorChangeRequest
     ): Mono<BookExtendedResponse> = bookAuthorService.removeAuthors(id, input).toMono()
 }

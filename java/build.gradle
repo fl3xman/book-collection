@@ -29,18 +29,8 @@ repositories {
     google()
 }
 
-dependencies {
-    compile project(':bc-api-service')
-}
-
-springBoot {
-    mainClassName = 'io.mike.api.BookCollectionApplication'
-}
-
-bootJar {
-    archiveBaseName = 'bc-services'
-    archiveVersion = '1.0.0'
-}
+dependencies {}
+springBoot {}
 
 configurations {
     compileOnly {

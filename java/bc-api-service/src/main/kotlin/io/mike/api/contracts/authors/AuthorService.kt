@@ -14,7 +14,8 @@ interface AuthorService : CrudService<Author, UUID, AuthorRepository, AuthorExte
     fun create(input: AuthorRequest): AuthorExtendedResponse = create(input, Author::class.java)
 
     fun find(params: SearchPageRequestParams): PageResponse<AuthorExtendedResponse> = find(params, setOf("name"))
-    fun findAuthorBooks(authorId: UUID): PageResponse<BookResponse> = (findOne(authorId).books).let {
-        PageResponse(it, null, it.count().toLong())
+    fun findAuthorBooks(authorId: UUID): PageResponse<BookResponse> {
+        val books = findOne(authorId).books
+        return PageResponse(books, null, books.count().toLong())
     }
 }
