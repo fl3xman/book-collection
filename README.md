@@ -49,11 +49,17 @@ In-memory *H2*.
 
 Project structure follows folders separated via business logic eg. `io.mike.api.contracts.*`.
 
+Dependencies:
+* spring boot webflux - provides full server bootstrap in reactive (WebFlux, Reactor).
+* model-mapper - provides easy way to map DTO to domain and vice-versa.
+
+
 ## 2. Typescript
 
 ### 2.1 Requirements
 
-* Node 12
+* Node.js 12+
+* Npm 6+
 
 ### 2.2 Supported Platforms
 
@@ -61,6 +67,13 @@ Project structure follows folders separated via business logic eg. `io.mike.api.
 
 ### 2.3 Installation/Run
 
+
+Install and run with following commands:
+
+```
+npm i
+npm start
+```
 
 ### 2.4 Database
 
@@ -70,9 +83,17 @@ In-memory *sqlite*.
 
 Project structure follows folders separated via business logic eg. `/contracts/*`.
 
+Dependencies:
+* hapi - provides server bootstrap
+* inversify - provides IoC container, to help manage dependencies, acts as service reslover.
+* sequelize - provides domain modeling
 
 ## References
 
 * [Reactor](https://projectreactor.io)
 * [WebFlux](https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html)
+* [ModelMapper](http://modelmapper.org)
+* [Hapi](https://hapi.dev)
+* [Inversify](http://inversify.io)
+* [Sequelize](https://sequelize.org)
 
