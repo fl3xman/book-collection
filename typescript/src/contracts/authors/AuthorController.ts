@@ -7,10 +7,11 @@ import { Route } from "../../foundation/controller/decorator";
 import { HttpMethod, MimeType, HttpStatus } from "../../foundation/http";
 import { SearchValidator, IdentityValidator } from "../../foundation/validator";
 
+import { AuthorValidator } from "./validator";
+import { AuthorRequest } from "./support";
+
 import { AuthorServiceProvider } from "./AuthorServiceProvider";
 import { AuthorService } from "./AuthorService";
-import { AuthorValidator } from "./validator";
-
 
 @injectable()
 export class AuthorController extends Controller {
@@ -31,8 +32,8 @@ export class AuthorController extends Controller {
             }
         }
     })
-    public async create(request: Hapi.Request, helper: Hapi.ResponseToolkit): Promise<Hapi.Lifecycle.ReturnValueTypes> {
-        return this.service.create({ ...request.payload as any });
+    public async create(request: AuthorRequest, helper: Hapi.ResponseToolkit): Promise<Hapi.Lifecycle.ReturnValueTypes> {
+        return this.service.create(request.payload);
     }
 
     @Route({
@@ -49,8 +50,8 @@ export class AuthorController extends Controller {
             }
         }
     })
-    public async update(request: Hapi.Request, helper: Hapi.ResponseToolkit): Promise<Hapi.Lifecycle.ReturnValueTypes> {
-        return this.service.update(request.params.id, { ...request.payload as any });
+    public async update(request: AuthorRequest, helper: Hapi.ResponseToolkit): Promise<Hapi.Lifecycle.ReturnValueTypes> {
+        return this.service.update(request.params.id, request.payload);
     }
 
     @Route({
