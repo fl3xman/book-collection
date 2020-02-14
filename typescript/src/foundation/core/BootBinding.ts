@@ -1,3 +1,5 @@
 export enum BootBinding {
-    Domain = "domainBootBinding"
+    Domain = "domainBootBinding",
+    Controller = "controllerBootBinding",
+    Router = "routerBootBinding",
 }

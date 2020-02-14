@@ -11,7 +11,7 @@ import { InversifyPlugin, InversifyProvider } from "../inversify";
 
 export class SequelizePlugin implements Hapi.PluginBase<SequelizeOptions>, Hapi.PluginNameVersion {
 
-    public static Keypath: string = "sequelize"
+    public static Keypath: string = "sequelize";
 
     public readonly name: string = SequelizePlugin.Keypath;
     public readonly dependencies: string[] = [InversifyPlugin.Keypath];

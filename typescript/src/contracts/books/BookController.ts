@@ -30,8 +30,8 @@ export class BookController extends Controller {
             }
         },
     })
-    public async create(): Promise<Hapi.Lifecycle.ReturnValueTypes> {
-        return this.service.create({ ...this.request.payload as any });
+    public async create(request: Hapi.Request, helper: Hapi.ResponseToolkit): Promise<Hapi.Lifecycle.ReturnValueTypes> {
+        return this.service.create({ ...request.payload as any });
     }
 
     @Route({
@@ -48,8 +48,8 @@ export class BookController extends Controller {
             }
         }
     })
-    public async update(): Promise<Hapi.Lifecycle.ReturnValueTypes> {
-        return this.service.update(this.request.params.id, { ...this.request.payload as any });
+    public async update(request: Hapi.Request, helper: Hapi.ResponseToolkit): Promise<Hapi.Lifecycle.ReturnValueTypes> {
+        return this.service.update(request.params.id, { ...request.payload as any });
     }
 
     @Route({
@@ -64,9 +64,9 @@ export class BookController extends Controller {
             }
         }
     })
-    public async delete(): Promise<Hapi.Lifecycle.ReturnValueTypes> {
-        await this.service.delete(this.request.params.id);
-        return this.helper.response().code(HttpStatus.NO_CONTENT);
+    public async delete(request: Hapi.Request, helper: Hapi.ResponseToolkit): Promise<Hapi.Lifecycle.ReturnValueTypes> {
+        await this.service.delete(request.params.id);
+        return helper.response().code(HttpStatus.NO_CONTENT);
     }
 
     @Route({
@@ -75,14 +75,11 @@ export class BookController extends Controller {
         options: {
             validate: {
                 params: IdentityValidator,
-            },
-            payload: {
-                allow: MimeType.ApplicationJson,
             }
         }
     })
-    public async findOne(): Promise<Hapi.Lifecycle.ReturnValueTypes> {
-        return this.service.findOne(this.request.params.id);
+    public async findOne(request: Hapi.Request, helper: Hapi.ResponseToolkit): Promise<Hapi.Lifecycle.ReturnValueTypes> {
+        return this.service.findOne(request.params.id);
     }
 
     @Route({
@@ -91,13 +88,10 @@ export class BookController extends Controller {
         options: {
             validate: {
                 query: SearchValidator,
-            },
-            payload: {
-                allow: MimeType.ApplicationJson,
             }
         }
     })
-    public async find(): Promise<Hapi.Lifecycle.ReturnValueTypes> {
-        return this.service.find(this.request.query);
+    public async find(request: Hapi.Request, helper: Hapi.ResponseToolkit): Promise<Hapi.Lifecycle.ReturnValueTypes> {
+        return this.service.find(request.query);
     }
 }

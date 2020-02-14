@@ -12,7 +12,7 @@ const container = new Container();
 
 export class InversifyPlugin implements Hapi.PluginBase<PluginConfig>, Hapi.PluginNameVersion {
 
-    public static Keypath: string = "inversify"
+    public static Keypath: string = "inversify";
 
     public readonly name: string = InversifyPlugin.Keypath;
 

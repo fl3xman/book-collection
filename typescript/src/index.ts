@@ -1,15 +1,15 @@
 import "reflect-metadata";
 
-import { bootServer } from "./server";
-import { LoggerTag } from "./foundation/logger";
+import { bootServer } from "./server/Bootstrap";
+import { DefaultLoggerTagSet, LoggerTag } from "./foundation/logger";
 
 ((async () => {
     const server = await bootServer({
         port: 3000,
         host: "localhost",
         debug: {
-            log: [LoggerTag.Info, LoggerTag.Error],
-            request: [LoggerTag.Info, LoggerTag.Error],
+            log: [...DefaultLoggerTagSet],
+            request: [...DefaultLoggerTagSet],
         }
     });
     await server.start();

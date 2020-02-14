@@ -1,11 +1,11 @@
+import * as _ from "lodash";
 import * as Hapi from "@hapi/hapi";
 
 export function Route(config: Hapi.ServerRoute) {
     return (target: any, methodName: string, descriptor: PropertyDescriptor) => {
-        if (!target.routes) {
-            target.routes = [];
+        if (_.isNil(target.routes)) {
+            target.routes = new Map<string, Hapi.ServerRoute>();
         }
-        (config as any).handlerName = methodName;
-        target.routes.push(config);
+        target.routes.set(methodName, config);
     }
 }

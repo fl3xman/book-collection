@@ -1,3 +1,3 @@
 export * from "./PluginConfig";
-export * from "./PluginBootFactory";
+export * from "./PluginBootProvider";
 export * from "./PluginProvider";
