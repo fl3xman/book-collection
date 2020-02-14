@@ -1,12 +1,12 @@
 import { BelongsToMany, Column, Table, Index, Scopes, DefaultScope } from "sequelize-typescript";
 
-import { Auditable, DefaultAttributeSet } from "../../foundation/domain";
+import { Auditable, DefaultEntityAttributeSet } from "../../foundation/domain";
 
 import { Book } from "../books";
 import { BookAuthor } from "../books/associations";
 
 @DefaultScope(() => ({
-    attributes: ["name", ...DefaultAttributeSet],
+    attributes: ["name", ...DefaultEntityAttributeSet],
 }))
 @Scopes(() => ({
     withBooks: {

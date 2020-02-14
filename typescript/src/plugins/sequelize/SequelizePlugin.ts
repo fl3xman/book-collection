@@ -4,14 +4,14 @@ import { Sequelize, ModelCtor, SequelizeOptions } from "sequelize-typescript";
 
 import { provideServerPlugin } from "../../foundation/plugin";
 import { LoggerTag } from "../../foundation/logger";
-import { DefaultDomainKey } from "../../foundation/domain";
+import { BootBinding } from "../../foundation/core";
 
 import { InversifyPlugin, InversifyProvider } from "../inversify";
 
 
 export class SequelizePlugin implements Hapi.PluginBase<SequelizeOptions>, Hapi.PluginNameVersion {
 
-    public static Keypath: string = "serialize"
+    public static Keypath: string = "sequelize"
 
     public readonly name: string = SequelizePlugin.Keypath;
     public readonly dependencies: string[] = [InversifyPlugin.Keypath];
@@ -21,7 +21,7 @@ export class SequelizePlugin implements Hapi.PluginBase<SequelizeOptions>, Hapi.
         const container = provideServerPlugin<InversifyProvider>(server, InversifyPlugin.Keypath).container();
         const sequelize = new Sequelize(options);
 
-        sequelize.addModels(container.get<ModelCtor[]>(DefaultDomainKey));
+        sequelize.addModels(container.get<ModelCtor[]>(BootBinding.Domain));
         container.bind(Sequelize).toConstantValue(sequelize);
 
         await sequelize.sync();

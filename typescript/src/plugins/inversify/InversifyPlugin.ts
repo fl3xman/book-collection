@@ -6,7 +6,7 @@ import { makeLoggerMiddleware } from "inversify-logger-middleware";
 import { LoggerTag } from "../../foundation/logger";
 import { PluginConfig } from "../../foundation/plugin";
 
-import { bootContracts } from "../../contracts";
+import { bootContracts } from "../../contracts/Bootstrap";
 
 const container = new Container();
 
