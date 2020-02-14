@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "mike.grman@gmail.com",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/bluebird": "^3.5.29",
     "@types/hapi__hapi": "^19.0.1",
