@@ -21,9 +21,33 @@
  *   SOFTWARE.
  */
 
-export class NotImplementedError extends Error {
-    constructor(message: string = "Not implemented.") {
-        super(message);
-        Object.setPrototypeOf(this, NotImplementedError.prototype);
+import { injectable, inject } from "inversify";
+
+import { CrudService } from "../../../foundation/service";
+import { guardNotFound } from "../../../foundation/core";
+
+import { AuthorServiceProvider, Author } from "../../authors";
+import { Book } from "../Book";
+
+import { BookAuthorServiceProvider } from "./BookAuthorServiceProvider";
+import { BookAuthor } from "./BookAuthor";
+
+@injectable()
+export class BookAuthorService extends CrudService<Book, string> implements BookAuthorServiceProvider {
+
+    @inject("AuthorServiceProvider")
+    private authorService: AuthorServiceProvider;
+
+    public async createBookWithAuthors(input: Partial<Book>, authorIds: string[]): Promise<Book> {
+        return this.sequelize.transaction(async (transaction) => {
+
+            const authors = await this.authorService.findEntities(authorIds, transaction);
+            guardNotFound(authors.length !== 0, `Entities with ids: ${authorIds} not found.`);
+
+            const book = await Book.create(input, { include: [Author], transaction });
+            await book.$add("authors", authors, { through: BookAuthor, transaction });
+
+            return book;
+        });
     }
 }

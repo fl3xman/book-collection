@@ -35,12 +35,11 @@ import { AuthorValidator } from "./validator";
 import { AuthorRequest } from "./support";
 
 import { AuthorServiceProvider } from "./AuthorServiceProvider";
-import { AuthorService } from "./AuthorService";
 
 @injectable()
 export class AuthorController extends Controller {
 
-    @inject(AuthorService)
+    @inject("AuthorServiceProvider")
     private service: AuthorServiceProvider;
 
     @route({

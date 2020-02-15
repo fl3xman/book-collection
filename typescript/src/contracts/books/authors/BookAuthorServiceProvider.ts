@@ -21,35 +21,9 @@
  *   SOFTWARE.
  */
 
-import { ContainerModule } from "inversify";
-import { ModelCtor } from "sequelize-typescript";
+import { CrudServiceProvider } from "../../../foundation/service";
+import { Book } from "../Book";
 
-import { BootBinding } from "../foundation/core";
-import { Controller } from "../foundation/controller";
-
-import { AuthorService, AuthorServiceProvider, AuthorController, Author } from "./authors";
-import { BookService, BookServiceProvider, BookController, Book } from "./books";
-import { BookAuthor, BookAuthorService, BookAuthorServiceProvider } from "./books/authors";
-
-export const bootContracts = (): ContainerModule => {
-    return new ContainerModule((bind) => {
-
-        // Author
-
-        bind<AuthorServiceProvider>("AuthorServiceProvider").to(AuthorService);
-        bind<Controller>(BootBinding.Controller).to(AuthorController);
-
-        // Book
-
-        bind<BookServiceProvider>("BookServiceProvider").to(BookService);
-        bind<Controller>(BootBinding.Controller).to(BookController);
-
-        // Book & Author
-
-        bind<BookAuthorServiceProvider>("BookAuthorServiceProvider").to(BookAuthorService);
-
-        // Boot models
-
-        bind<ModelCtor[]>(BootBinding.Domain).toConstantValue([Author, Book, BookAuthor]);
-    });
-};
+export interface BookAuthorServiceProvider extends CrudServiceProvider<Book, string> {
+    createBookWithAuthors(input: Partial<Book>, authorIds: string[]): Promise<Book>;
+}

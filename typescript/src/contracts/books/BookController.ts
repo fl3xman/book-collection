@@ -33,15 +33,17 @@ import { SearchPageParamsRequest } from "../../foundation/service";
 
 import { BookUpdateValidator, BookCreateValidator } from "./validator";
 import { BookRequest } from "./support";
-
+import { BookAuthorServiceProvider } from "./authors";
 import { BookServiceProvider } from "./BookServiceProvider";
-import { BookService } from "./BookService";
 
 @injectable()
 export class BookController extends Controller {
 
-    @inject(BookService)
-    private service: BookServiceProvider
+    @inject("BookServiceProvider")
+    private bookService: BookServiceProvider;
+
+    @inject("BookAuthorServiceProvider")
+    private bookAuthorService: BookAuthorServiceProvider;
 
     @route({
         path: "/books",
@@ -57,7 +59,7 @@ export class BookController extends Controller {
         },
     })
     public async create(request: BookRequest, helper: Hapi.ResponseToolkit): Promise<Hapi.Lifecycle.ReturnValueTypes> {
-        return this.service.create(request.payload);
+        return this.bookAuthorService.createBookWithAuthors(request.payload, request.payload.authorIds);
     }
 
     @route({
@@ -75,7 +77,7 @@ export class BookController extends Controller {
         }
     })
     public async update(request: BookRequest, helper: Hapi.ResponseToolkit): Promise<Hapi.Lifecycle.ReturnValueTypes> {
-        return this.service.update(request.params.id, request.payload);
+        return this.bookService.update(request.params.id, request.payload);
     }
 
     @route({
@@ -91,7 +93,7 @@ export class BookController extends Controller {
         }
     })
     public async delete(request: Hapi.Request, helper: Hapi.ResponseToolkit): Promise<Hapi.Lifecycle.ReturnValueTypes> {
-        await this.service.delete(request.params.id);
+        await this.bookService.delete(request.params.id);
         return helper.response().code(HttpStatus.NO_CONTENT);
     }
 
@@ -105,7 +107,7 @@ export class BookController extends Controller {
         }
     })
     public async findOne(request: Hapi.Request, helper: Hapi.ResponseToolkit): Promise<Hapi.Lifecycle.ReturnValueTypes> {
-        return this.service.findOne(request.params.id);
+        return this.bookService.findOne(request.params.id);
     }
 
     @route({
@@ -118,6 +120,6 @@ export class BookController extends Controller {
         }
     })
     public async find(request: SearchPageParamsRequest, helper: Hapi.ResponseToolkit): Promise<Hapi.Lifecycle.ReturnValueTypes> {
-        return this.service.findBooks(request.query);
+        return this.bookService.findBooks(request.query);
     }
 }

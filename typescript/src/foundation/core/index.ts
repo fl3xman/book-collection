@@ -1,3 +1,2 @@
-export * from "./NotImplementedError";
 export * from "./BootBinding";
-
+export * from "./GuardNotFound";

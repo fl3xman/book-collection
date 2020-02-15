@@ -28,4 +28,5 @@ import { Validation } from "../../../foundation/validator/support";
 export const BookCreateValidator: Validation = {
     title: Joi.string().min(1).required(),
     description: Joi.string().min(1).required(),
+    authorIds: Joi.array().items(Joi.string().required()).min(1).required(),
 }

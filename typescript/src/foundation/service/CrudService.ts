@@ -25,16 +25,18 @@ import * as _ from "lodash";
 
 import { inject, injectable } from "inversify";
 import { Sequelize } from "sequelize-typescript";
+import { Op, Transaction } from "sequelize";
 
 import { Auditable } from "../domain";
+import { guardNotFound } from "../core";
+
 import { CrudServiceProvider } from "./CrudServiceProvider";
-import { guardEntityNotFound } from "../domain";
 import { SearchPageParams } from "./SearchPageParams";
 import { Page } from "./Page";
 import { searchOperation } from "./SearchOperation";
 
 @injectable()
-export abstract class CrudService<T extends Auditable<T>, ID> implements CrudServiceProvider<T, ID> {
+export abstract class CrudService<T extends Auditable<T>, ID = string> implements CrudServiceProvider<T, ID> {
 
     @inject(Sequelize)
     protected sequelize: Sequelize;
@@ -50,21 +52,21 @@ export abstract class CrudService<T extends Auditable<T>, ID> implements CrudSer
         const repository = this.sequelize.getRepository(this.modelFactory);
         const [, result] = await repository.update(input, { where: { id } });
 
-        return guardEntityNotFound(_.first(result), `Entity with id: ${id} not found.`);
+        return guardNotFound(_.first(result), `Entity with id: ${id} not found.`);
     }
 
     public async delete(id: ID): Promise<void> {
         const repository = this.sequelize.getRepository(this.modelFactory);
         const count = await repository.destroy({ where: { id } });
 
-        guardEntityNotFound(count === 0, `Entity with id: ${id} not found.`);
+        guardNotFound(count !== 0, `Entity with id: ${id} not found.`);
     }
 
     public async findOne(id: ID): Promise<T> {
         const repository = this.sequelize.getRepository(this.modelFactory);
         const result = await repository.findOne({ where: { id } });
 
-        return guardEntityNotFound(result, `Entity with id: ${id} not found.`);
+        return guardNotFound(result, `Entity with id: ${id} not found.`);
     }
 
     public async find<P extends SearchPageParams = SearchPageParams>(params: Partial<P>, attributes: string[]): Promise<Page<T>> {
@@ -75,6 +77,13 @@ export abstract class CrudService<T extends Auditable<T>, ID> implements CrudSer
 
         const cursor = result.count - result.rows.length;
         return { source: result.rows, cursor: (cursor > 0) ? cursor : undefined, totalCount: result.count };
+    }
+
+    public async findEntities(ids: ID[], transaction?: Transaction): Promise<T[]> {
+        const repository = this.sequelize.getRepository(this.modelFactory);
+        const result = await repository.findAll({ where: { id: { [Op.in]: ids } }, transaction });
+
+        return result;
     }
 }
 

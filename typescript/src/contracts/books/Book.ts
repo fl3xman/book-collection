@@ -26,7 +26,7 @@ import { BelongsToMany, Column, Table, Index, DefaultScope, Scopes } from "seque
 import { Auditable, DefaultEntityAttributeSet } from "../../foundation/domain";
 
 import { Author } from "../authors";
-import { BookAuthor } from "./associations";
+import { BookAuthor } from "./authors";
 
 @DefaultScope(() => ({
     attributes: ["title", "description", ...DefaultEntityAttributeSet],

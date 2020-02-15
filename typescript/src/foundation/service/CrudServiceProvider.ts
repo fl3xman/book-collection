@@ -21,6 +21,8 @@
  *   SOFTWARE.
  */
 
+import { Transaction } from "sequelize";
+
 import { Auditable } from "../domain";
 
 import { SearchPageParams } from "./SearchPageParams";
@@ -34,4 +36,6 @@ export interface CrudServiceProvider<T extends Auditable<T>, ID = string> {
 
     findOne(id: ID): Promise<T>;
     find<P extends SearchPageParams = SearchPageParams>(params: Partial<P>, attributes: string[]): Promise<Page<T>>;
+
+    findEntities(ids: ID[], transaction?: Transaction): Promise<T[]>;
 }

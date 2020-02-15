@@ -27,5 +27,6 @@ export interface BookRequest extends Hapi.Request {
     payload: {
         title?: string;
         description?: string;
+        authorIds: string[];
     }
 }

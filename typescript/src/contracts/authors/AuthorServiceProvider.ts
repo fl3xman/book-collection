@@ -21,7 +21,7 @@
  *   SOFTWARE.
  */
 
-import { CrudServiceProvider } from "../../foundation/service/CrudServiceProvider";
+import { CrudServiceProvider } from "../../foundation/service";
 import { SearchPageParams, Page } from "../../foundation/service";
 import { Author } from "./Author";
 
