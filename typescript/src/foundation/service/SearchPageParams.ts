@@ -21,10 +21,7 @@
  *   SOFTWARE.
  */
 
-import { CrudServiceProvider } from "../../foundation/service/CrudServiceProvider";
-import { SearchPageParams, Page } from "../../foundation/service";
-import { Book } from "./Book";
+import { SearchParams } from "./SearchParams";
+import { PageParams } from "./PageParams";
 
-export interface BookServiceProvider extends CrudServiceProvider<Book, string> {
-    findBooks(params: SearchPageParams): Promise<Page<Book>>;
-}
+export type SearchPageParams = SearchParams & PageParams;

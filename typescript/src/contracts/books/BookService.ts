@@ -23,8 +23,7 @@
 
 import { injectable } from "inversify";
 
-import { CrudService } from "../../foundation/service";
-import { NotImplementedError } from "../../foundation/core";
+import { CrudService, SearchPageParams, Page } from "../../foundation/service";
 import { Book } from "./Book";
 import { BookServiceProvider } from "./BookServiceProvider";
 
@@ -34,7 +33,7 @@ export class BookService extends CrudService<Book, string> implements BookServic
         super(Book);
     }
 
-    public async find<Params>(params: Params): Promise<Book[]> {
-        throw new NotImplementedError();
+    public async findBooks(params: SearchPageParams): Promise<Page<Book>> {
+        return this.find(params, ["title", "description"]);
     }
 }

@@ -23,6 +23,9 @@
 
 import { Auditable } from "../domain";
 
+import { SearchPageParams } from "./SearchPageParams";
+import { Page } from "./Page";
+
 export interface CrudServiceProvider<T extends Auditable<T>, ID = string> {
 
     create(input: Partial<T>): Promise<T>;
@@ -30,5 +33,5 @@ export interface CrudServiceProvider<T extends Auditable<T>, ID = string> {
     delete(id: ID): Promise<void>;
 
     findOne(id: ID): Promise<T>;
-    find<Params>(params: Params): Promise<T[]>;
+    find<P extends SearchPageParams = SearchPageParams>(params: Partial<P>, attributes: string[]): Promise<Page<T>>;
 }

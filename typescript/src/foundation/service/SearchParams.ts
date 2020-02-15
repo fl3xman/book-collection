@@ -21,10 +21,10 @@
  *   SOFTWARE.
  */
 
-import { CrudServiceProvider } from "../../foundation/service/CrudServiceProvider";
-import { SearchPageParams, Page } from "../../foundation/service";
-import { Book } from "./Book";
+import * as Hapi from "@hapi/hapi";
 
-export interface BookServiceProvider extends CrudServiceProvider<Book, string> {
-    findBooks(params: SearchPageParams): Promise<Page<Book>>;
+export interface SearchParams {
+    search?: string;
 }
+
+export type SearchParamsQuery = Hapi.RequestQuery & SearchParams;

@@ -28,7 +28,7 @@ import { injectable, inject } from "inversify";
 import { Controller } from "../../foundation/controller";
 import { Route } from "../../foundation/controller/decorator";
 import { HttpMethod, MimeType, HttpStatus } from "../../foundation/http";
-import { SearchValidator, IdentityValidator } from "../../foundation/validator";
+import { SearchPageValidator, IdentityValidator } from "../../foundation/validator";
 
 import { AuthorValidator } from "./validator";
 import { AuthorRequest } from "./support";
@@ -112,11 +112,11 @@ export class AuthorController extends Controller {
         method: HttpMethod.GET,
         options: {
             validate: {
-                query: SearchValidator,
+                query: SearchPageValidator,
             }
         }
     })
     public async find(request: Hapi.Request, helper: Hapi.ResponseToolkit): Promise<Hapi.Lifecycle.ReturnValueTypes> {
-        return this.service.find(request.query);
+        return this.service.findAuthors(request.query);
     }
 }

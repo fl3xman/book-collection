@@ -28,7 +28,7 @@ import { injectable, inject } from "inversify";
 import { Controller } from "../../foundation/controller";
 import { Route } from "../../foundation/controller/decorator";
 import { HttpMethod, MimeType, HttpStatus } from "../../foundation/http";
-import { IdentityValidator, SearchValidator } from "../../foundation/validator";
+import { IdentityValidator, SearchPageValidator } from "../../foundation/validator";
 
 import { BookUpdateValidator, BookCreateValidator } from "./validator";
 import { BookRequest } from "./support";
@@ -112,11 +112,11 @@ export class BookController extends Controller {
         method: HttpMethod.GET,
         options: {
             validate: {
-                query: SearchValidator,
+                query: SearchPageValidator,
             }
         }
     })
     public async find(request: Hapi.Request, helper: Hapi.ResponseToolkit): Promise<Hapi.Lifecycle.ReturnValueTypes> {
-        return this.service.find(request.query);
+        return this.service.findBooks(request.query);
     }
 }

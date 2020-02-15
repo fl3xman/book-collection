@@ -21,10 +21,11 @@
  *   SOFTWARE.
  */
 
-import { CrudServiceProvider } from "../../foundation/service/CrudServiceProvider";
-import { SearchPageParams, Page } from "../../foundation/service";
-import { Book } from "./Book";
+import { Validation } from "./support";
 
-export interface BookServiceProvider extends CrudServiceProvider<Book, string> {
-    findBooks(params: SearchPageParams): Promise<Page<Book>>;
+import { SearchValidator } from "./SearchValidator";
+import { PageValidator } from "./PageValidator";
+
+export const SearchPageValidator: Validation = {
+    ...SearchValidator, ...PageValidator,
 }

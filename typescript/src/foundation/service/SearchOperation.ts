@@ -21,10 +21,18 @@
  *   SOFTWARE.
  */
 
-import { CrudServiceProvider } from "../../foundation/service/CrudServiceProvider";
-import { SearchPageParams, Page } from "../../foundation/service";
-import { Book } from "./Book";
+import * as _ from "lodash";
+import { Op, WhereOptions } from "sequelize";
 
-export interface BookServiceProvider extends CrudServiceProvider<Book, string> {
-    findBooks(params: SearchPageParams): Promise<Page<Book>>;
+export interface SearchAttribute {
+    [attribute: string]: WhereOptions;
 }
+
+export const searchOperation = (attributes: string[], term?: string) => (term ? {
+    [Op.or]: _.reduce(attributes, (accum: SearchAttribute, value) => {
+        accum[value] = {
+            [Op.like]: term,
+        };
+        return accum;
+    }, {}),
+} : undefined);

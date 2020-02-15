@@ -23,8 +23,7 @@
 
 import { injectable } from "inversify";
 
-import { CrudService } from "../../foundation/service";
-import { NotImplementedError } from "../../foundation/core";
+import { CrudService, SearchPageParams, Page } from "../../foundation/service";
 import { Author } from "./Author";
 import { AuthorServiceProvider } from "./AuthorServiceProvider";
 
@@ -35,7 +34,7 @@ export class AuthorService extends CrudService<Author, string> implements Author
         super(Author);
     }
 
-    public async find<Params>(params: Params): Promise<Author[]> {
-        throw new NotImplementedError();
+    public async findAuthors(params: SearchPageParams): Promise<Page<Author>> {
+        return this.find(params, ["name"]);
     }
 }

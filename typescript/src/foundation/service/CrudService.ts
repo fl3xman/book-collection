@@ -29,6 +29,9 @@ import { Sequelize } from "sequelize-typescript";
 import { Auditable } from "../domain";
 import { CrudServiceProvider } from "./CrudServiceProvider";
 import { guardEntityNotFound } from "../domain";
+import { SearchPageParams } from "./SearchPageParams";
+import { Page } from "./Page";
+import { searchOperation } from "./SearchOperation";
 
 @injectable()
 export abstract class CrudService<T extends Auditable<T>, ID> implements CrudServiceProvider<T, ID> {
@@ -64,5 +67,14 @@ export abstract class CrudService<T extends Auditable<T>, ID> implements CrudSer
         return guardEntityNotFound(result, `Entity with id: ${id} not found.`);
     }
 
-    abstract async find<Params>(params: Params): Promise<T[]>;
+    public async find<P extends SearchPageParams = SearchPageParams>(params: Partial<P>, attributes: string[]): Promise<Page<T>> {
+        const repository = this.sequelize.getRepository(this.modelFactory);
+        const result = await repository.findAndCountAll({
+            where: searchOperation(attributes, params.search), limit: params.limit, offset: params.cursor
+        });
+
+        const cursor = result.count - result.rows.length;
+        return { source: result.rows, cursor: (cursor > 0) ? cursor : undefined, totalCount: result.count };
+    }
 }
+

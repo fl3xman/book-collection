@@ -22,6 +22,9 @@
  */
 
 import { CrudServiceProvider } from "../../foundation/service/CrudServiceProvider";
+import { SearchPageParams, Page } from "../../foundation/service";
 import { Author } from "./Author";
 
-export interface AuthorServiceProvider extends CrudServiceProvider<Author, string> { }
+export interface AuthorServiceProvider extends CrudServiceProvider<Author, string> {
+    findAuthors(params: SearchPageParams): Promise<Page<Author>>;
+}

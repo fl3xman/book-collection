@@ -21,10 +21,11 @@
  *   SOFTWARE.
  */
 
-import { CrudServiceProvider } from "../../foundation/service/CrudServiceProvider";
-import { SearchPageParams, Page } from "../../foundation/service";
-import { Book } from "./Book";
+import * as Joi from "@hapi/joi";
 
-export interface BookServiceProvider extends CrudServiceProvider<Book, string> {
-    findBooks(params: SearchPageParams): Promise<Page<Book>>;
+import { Validation } from "./support";
+
+export const PageValidator: Validation = {
+    limit: Joi.number().optional(),
+    cursor: Joi.number().optional(),
 }
