@@ -26,7 +26,7 @@ import * as Hapi from "@hapi/hapi";
 import { injectable, inject } from "inversify";
 
 import { Controller } from "../../foundation/controller";
-import { Route } from "../../foundation/controller/decorator";
+import { route } from "../../foundation/controller/decorator";
 import { HttpMethod, MimeType, HttpStatus } from "../../foundation/http";
 import { SearchPageValidator, IdentityValidator } from "../../foundation/validator";
 import { SearchPageParamsRequest } from "../../foundation/service";
@@ -43,7 +43,7 @@ export class AuthorController extends Controller {
     @inject(AuthorService)
     private service: AuthorServiceProvider;
 
-    @Route({
+    @route({
         path: "/authors",
         method: HttpMethod.POST,
         options: {
@@ -60,7 +60,7 @@ export class AuthorController extends Controller {
         return this.service.create(request.payload);
     }
 
-    @Route({
+    @route({
         path: "/authors/{id}",
         method: HttpMethod.PATCH,
         options: {
@@ -78,7 +78,7 @@ export class AuthorController extends Controller {
         return this.service.update(request.params.id, request.payload);
     }
 
-    @Route({
+    @route({
         path: "/authors/{id}",
         method: HttpMethod.DELETE,
         options: {
@@ -95,7 +95,7 @@ export class AuthorController extends Controller {
         return helper.response().code(HttpStatus.NO_CONTENT);
     }
 
-    @Route({
+    @route({
         path: "/authors/{id}",
         method: HttpMethod.GET,
         options: {
@@ -108,7 +108,7 @@ export class AuthorController extends Controller {
         return this.service.findOne(request.params.id);
     }
 
-    @Route({
+    @route({
         path: "/authors",
         method: HttpMethod.GET,
         options: {
