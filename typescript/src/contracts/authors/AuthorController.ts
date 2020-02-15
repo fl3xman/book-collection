@@ -29,6 +29,7 @@ import { Controller } from "../../foundation/controller";
 import { Route } from "../../foundation/controller/decorator";
 import { HttpMethod, MimeType, HttpStatus } from "../../foundation/http";
 import { SearchPageValidator, IdentityValidator } from "../../foundation/validator";
+import { SearchPageParamsRequest } from "../../foundation/service";
 
 import { AuthorValidator } from "./validator";
 import { AuthorRequest } from "./support";
@@ -116,7 +117,7 @@ export class AuthorController extends Controller {
             }
         }
     })
-    public async find(request: Hapi.Request, helper: Hapi.ResponseToolkit): Promise<Hapi.Lifecycle.ReturnValueTypes> {
+    public async find(request: SearchPageParamsRequest, helper: Hapi.ResponseToolkit): Promise<Hapi.Lifecycle.ReturnValueTypes> {
         return this.service.findAuthors(request.query);
     }
 }
