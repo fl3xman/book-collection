@@ -24,6 +24,7 @@
 import { injectable } from "inversify";
 
 import { CrudService, SearchPageParams, Page } from "../../foundation/service";
+import { guardNotFound } from "../../foundation/core";
 import { Author } from "./Author";
 import { AuthorServiceProvider } from "./AuthorServiceProvider";
 
@@ -36,5 +37,9 @@ export class AuthorService extends CrudService<Author, string> implements Author
 
     public async findAuthors(params: SearchPageParams): Promise<Page<Author>> {
         return this.find(params, ["name"]);
+    }
+
+    public async findOne(id: string): Promise<Author> {
+        return guardNotFound(await Author.scopeWithBooks().findOne({ where: { id } }));
     }
 }

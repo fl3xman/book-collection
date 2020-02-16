@@ -42,7 +42,7 @@ export class BookAuthorService extends CrudService<Book, string> implements Book
             const authors = await this.authorService.findEntities(authorIds, transaction);
             const book = await Book.create(input, { transaction });
 
-            return book.withAuthors(authors, transaction);
+            return book.setWithAuthors(authors, transaction);
         });
     }
 }

@@ -33,13 +33,16 @@ import { BookAuthor } from "./authors";
     attributes: ["title", "description", ...DefaultEntityAttributeSet],
 }))
 @Scopes(() => ({
-    withBooks: {
+    withAuthors: {
         include: [Author],
     }
 }))
 @Table({ tableName: "books" })
 export class Book extends Auditable<Book> {
 
+    public static scopeWithAuthors(): typeof Book {
+        return Book.scope("withAuthors");
+    }
     @Index
     @Column
     public title: string;
@@ -52,9 +55,9 @@ export class Book extends Auditable<Book> {
     public authors: Author[];
 
 
-    public async withAuthors(authors: Author[], transaction?: Transaction): Promise<this> {
+    public async setWithAuthors(authors: Author[], transaction?: Transaction): Promise<this> {
         this.setDataValue("authors", authors);
-        await this.$add("authors", authors, { transaction });
+        await this.$set("authors", authors, { transaction });
 
         return this;
     }

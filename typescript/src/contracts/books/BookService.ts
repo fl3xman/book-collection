@@ -24,8 +24,10 @@
 import { injectable } from "inversify";
 
 import { CrudService, SearchPageParams, Page } from "../../foundation/service";
+import { guardNotFound } from "../../foundation/core";
 import { Book } from "./Book";
 import { BookServiceProvider } from "./BookServiceProvider";
+
 
 @injectable()
 export class BookService extends CrudService<Book, string> implements BookServiceProvider {
@@ -35,5 +37,9 @@ export class BookService extends CrudService<Book, string> implements BookServic
 
     public async findBooks(params: SearchPageParams): Promise<Page<Book>> {
         return this.find(params, ["title", "description"]);
+    }
+
+    public async findOne(id: string): Promise<Book> {
+        return guardNotFound(await Book.scopeWithAuthors().findOne({ where: { id } }));
     }
 }

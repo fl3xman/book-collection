@@ -39,10 +39,14 @@ import { BookAuthor } from "../books/authors";
 @Table({ tableName: "authors" })
 export class Author extends Auditable<Author> {
 
+    public static scopeWithBooks(): typeof Author {
+        return Author.scope("withBooks");
+    }
+
     @Index
     @Column
     public name: string;
 
     @BelongsToMany(() => Book, () => BookAuthor)
-    public books: (Book & { BookAuthor: BookAuthor })[];
+    public books: Book[];
 }
