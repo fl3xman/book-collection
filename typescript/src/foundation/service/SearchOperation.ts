@@ -31,7 +31,7 @@ export interface SearchAttribute {
 export const searchOperation = (attributes: string[], term?: string) => (term ? {
     [Op.or]: _.reduce(attributes, (accum: SearchAttribute, value) => {
         accum[value] = {
-            [Op.like]: term,
+            [Op.substring]: term,
         };
         return accum;
     }, {}),
