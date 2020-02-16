@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mockito
 import org.mockito.Mockito.times
+import org.modelmapper.ModelMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -26,6 +27,7 @@ import java.util.*
 @ExtendWith(SpringExtension::class)
 @WebFluxTest(controllers = [AuthorController::class])
 @Import(value = [
+    ModelMapper::class,
     GlobalErrorAttributes::class,
     GlobalExceptionHandler::class
 ])
@@ -41,9 +43,9 @@ class AuthorControllerTestSuite {
     fun `create author`() {
         val uuid = UUID.randomUUID()
         val date = LocalDateTime.now()
-        var request = AuthorRequest()
+        val request = AuthorRequest()
         request.name = "Tester"
-        
+
         val response = AuthorExtendedResponse()
         response.id = uuid;
         response.name = "Tester"
