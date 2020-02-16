@@ -5,16 +5,19 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "lab --transform node_modules/lab-transform-typescript"
   },
   "author": "mike.grman@gmail.com",
   "license": "MIT",
   "devDependencies": {
+    "@hapi/code": "^8.0.1",
+    "@hapi/lab": "^22.0.3",
     "@types/bluebird": "^3.5.29",
     "@types/hapi__hapi": "^19.0.1",
     "@types/lodash": "^4.14.149",
     "@types/node": "^13.7.1",
     "@types/validator": "^12.0.1",
+    "lab-transform-typescript": "^3.0.1",
     "nodemon": "^2.0.2",
     "tslint": "^6.0.0",
     "tslint-no-circular-imports": "^0.7.0",

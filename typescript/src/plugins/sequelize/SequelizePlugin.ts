@@ -48,7 +48,6 @@ export class SequelizePlugin implements Hapi.PluginBase<SequelizeOptions>, Hapi.
         container.bind(Sequelize).toConstantValue(sequelize);
 
         await sequelize.sync();
-
         server.log([LoggerTag.Info], "Sequelize plugin registered successfully.");
     }
 }

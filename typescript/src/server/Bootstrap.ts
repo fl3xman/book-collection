@@ -42,7 +42,7 @@ export const bootServer = async (options?: Hapi.ServerOptions): Promise<Hapi.Ser
         // Register plugins
 
         await server.register([
-            bootPlugin(InversifyPlugin, { debug: true }),
+            bootPlugin(InversifyPlugin, { debug: false }), // enable to container debug
             bootPlugin(SequelizePlugin, {
                 database: "books",
                 dialect: "sqlite",
