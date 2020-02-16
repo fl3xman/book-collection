@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon",
+    "build": "tsc",
     "test": "lab --transform node_modules/lab-transform-typescript"
   },
   "author": "mike.grman@gmail.com",
