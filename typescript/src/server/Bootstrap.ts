@@ -48,7 +48,7 @@ export const bootServer = async (options?: Hapi.ServerOptions): Promise<Hapi.Ser
                 dialect: "sqlite",
                 username: "book",
                 password: "book",
-                storage: ":memory:",
+                storage: ":memory:"
             }),
             bootPlugin(RouterPlugin, {})
         ]);

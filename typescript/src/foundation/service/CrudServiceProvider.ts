@@ -37,5 +37,6 @@ export interface CrudServiceProvider<T extends Auditable<T>, ID = string> {
     findOne(id: ID): Promise<T>;
     find<P extends SearchPageParams = SearchPageParams>(params: Partial<P>, attributes: string[]): Promise<Page<T>>;
 
+    findEntity(id: ID, transaction?: Transaction): Promise<T>;
     findEntities(ids: ID[], transaction?: Transaction): Promise<T[]>;
 }

@@ -24,13 +24,11 @@
 import { injectable, inject } from "inversify";
 
 import { CrudService } from "../../../foundation/service";
-import { guardNotFound } from "../../../foundation/core";
 
-import { AuthorServiceProvider, Author } from "../../authors";
+import { AuthorServiceProvider } from "../../authors";
 import { Book } from "../Book";
 
 import { BookAuthorServiceProvider } from "./BookAuthorServiceProvider";
-import { BookAuthor } from "./BookAuthor";
 
 @injectable()
 export class BookAuthorService extends CrudService<Book, string> implements BookAuthorServiceProvider {
@@ -42,12 +40,9 @@ export class BookAuthorService extends CrudService<Book, string> implements Book
         return this.sequelize.transaction(async (transaction) => {
 
             const authors = await this.authorService.findEntities(authorIds, transaction);
-            guardNotFound(authors.length !== 0, `Entities with ids: ${authorIds} not found.`);
+            const book = await Book.create(input, { transaction });
 
-            const book = await Book.create(input, { include: [Author], transaction });
-            await book.$add("authors", authors, { through: BookAuthor, transaction });
-
-            return book;
+            return book.withAuthors(authors, transaction);
         });
     }
 }

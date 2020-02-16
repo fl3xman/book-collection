@@ -63,10 +63,7 @@ export abstract class CrudService<T extends Auditable<T>, ID = string> implement
     }
 
     public async findOne(id: ID): Promise<T> {
-        const repository = this.sequelize.getRepository(this.modelFactory);
-        const result = await repository.findOne({ where: { id } });
-
-        return guardNotFound(result, `Entity with id: ${id} not found.`);
+        return this.findEntity(id);
     }
 
     public async find<P extends SearchPageParams = SearchPageParams>(params: Partial<P>, attributes: string[]): Promise<Page<T>> {
@@ -79,9 +76,18 @@ export abstract class CrudService<T extends Auditable<T>, ID = string> implement
         return { source: result.rows, cursor: (cursor > 0) ? cursor : undefined, totalCount: result.count };
     }
 
+    public async findEntity(id: ID, transaction?: Transaction): Promise<T> {
+        const repository = this.sequelize.getRepository(this.modelFactory);
+        const result = await repository.findOne({ where: { id }, transaction });
+
+        return guardNotFound(result, `Entity with id: ${id} not found.`);
+    }
+
     public async findEntities(ids: ID[], transaction?: Transaction): Promise<T[]> {
         const repository = this.sequelize.getRepository(this.modelFactory);
         const result = await repository.findAll({ where: { id: { [Op.in]: ids } }, transaction });
+
+        guardNotFound(result.length !== 0, `Entities with ids: ${ids} not found.`);
 
         return result;
     }

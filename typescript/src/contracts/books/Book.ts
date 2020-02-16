@@ -22,6 +22,7 @@
  */
 
 import { BelongsToMany, Column, Table, Index, DefaultScope, Scopes } from "sequelize-typescript";
+import { Transaction } from "sequelize";
 
 import { Auditable, DefaultEntityAttributeSet } from "../../foundation/domain";
 
@@ -48,5 +49,13 @@ export class Book extends Auditable<Book> {
     public description: string;
 
     @BelongsToMany(() => Author, () => BookAuthor)
-    public authors: (Author & { BookAuthor: BookAuthor })[];
+    public authors: Author[];
+
+
+    public async withAuthors(authors: Author[], transaction?: Transaction): Promise<this> {
+        this.setDataValue("authors", authors);
+        await this.$add("authors", authors, { transaction });
+
+        return this;
+    }
 }
