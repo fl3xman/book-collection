@@ -70,7 +70,7 @@ class BookController {
     @PostMapping(consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun create(
             @Validated(Create::class) @RequestBody input: BookAuthorRequest
-    ): Mono<BookExtendedResponse> = bookAuthorService.createBook(input).toMono()
+    ): Mono<BookExtendedResponse> = bookAuthorService.createBookWithAuthors(input).toMono()
 
     @PatchMapping(path = ["/{id}"], consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun update(

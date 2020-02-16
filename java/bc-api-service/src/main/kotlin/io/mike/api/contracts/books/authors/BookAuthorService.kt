@@ -39,7 +39,7 @@ interface BookAuthorService : DelegatedCrudService<BookExtendedResponse> {
     val authorRepository: AuthorRepository
     val bookRepository: BookRepository
 
-    fun createBook(input: BookAuthorRequest): BookExtendedResponse {
+    fun createBookWithAuthors(input: BookAuthorRequest): BookExtendedResponse {
         val book = mergeClass(input, Book::class.java).also { it.addAuthors(findEntities(authorRepository, input.authorIds)) }
         return bookRepository.save(book).toResponse()
     }
