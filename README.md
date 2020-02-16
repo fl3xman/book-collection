@@ -73,6 +73,10 @@ Install and run with following commands:
 ```
 npm i
 npm start
+
+// tests
+
+npm run test
 ```
 
 ### 2.4 Database
