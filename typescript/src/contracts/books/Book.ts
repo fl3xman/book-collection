@@ -55,9 +55,9 @@ export class Book extends Auditable<Book> {
     public authors: Author[];
 
 
-    public async setWithAuthors(authors: Author[], transaction?: Transaction): Promise<this> {
+    public async $addAuthors(authors: Author[], transaction?: Transaction): Promise<this> {
         this.setDataValue("authors", authors);
-        await this.$set("authors", authors, { transaction });
+        await this.$add("authors", authors, { transaction });
 
         return this;
     }
