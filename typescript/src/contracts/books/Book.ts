@@ -43,6 +43,7 @@ export class Book extends Auditable<Book> {
     public static scopeWithAuthors(): typeof Book {
         return Book.scope("withAuthors");
     }
+
     @Index
     @Column
     public title: string;
